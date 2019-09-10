@@ -1,0 +1,154 @@
+let rover = {
+  direction: "N",
+  x: 0,
+  y:0,
+  travelLog: [],
+}
+
+let obstacles = [ 
+  [' ','O',' ',' ',' ',' ',' ',' '],
+  [' ',' ',' ',' ',' ',' ',' ',' '],
+  [' ',' ','O',' ',' ',' ',' ',' '],
+  [' ',' ',' ',' ',' ','O',' ',' '],
+  [' ',' ',' ',' ',' ',' ',' ',' '],
+  [' ',' ',' ','O',' ',' ',' ',' '],
+  [' ',' ',' ',' ',' ',' ',' ',' '],
+  [' ','O',' ',' ',' ',' ',' ',' '],
+  [' ',' ',' ','O',' ',' ',' ',' '],
+  [' ',' ',' ',' ',' ',' ',' ',' '],];
+// ======================
+
+function turnLeft(rover) {
+  switch (true) {
+    case rover.direction === "N" : {
+      rover.direction = "W";
+      break;
+  };
+    case rover.direction === "W" : {
+      rover.direction = "S";
+      break;
+  };
+    case rover.direction === "S" : {
+      rover.direction = "E";
+      break;
+  };
+      case rover.direction === "E" : {
+      rover.direction = "N";
+      break;
+      };
+      default : console.log("erreur");}
+  console.log("turnLeft was called!");
+};
+
+function turnRight(rover){
+  switch (true) {
+    case rover.direction === "N" : {
+      rover.direction = "E";
+      break;
+  };
+    case rover.direction === "E" : {
+      rover.direction = "S";
+      break;
+  };
+    case rover.direction === "S" : {
+      rover.direction = "W";
+      break;
+  };
+      case rover.direction === "W" : {
+      rover.direction = "N";
+      break;
+      };
+      default : console.log("erreur");
+  }
+  console.log("turnRight was called!");
+};
+
+function moveForward(rover){
+  switch (true) {
+    case rover.direction === "N":{
+      rover.y -= 1;
+      break;
+    };
+      case rover.direction === "S":{
+      rover.y += 1;
+      break;
+    };
+      case rover.direction === "W":{
+      rover.x -= 1;
+      break;
+    };
+      case rover.direction === "E":{
+      rover.x += 1;
+      break;
+    };
+      default : console.log("erreur");
+  }
+  console.log("moveForward was called")
+};
+
+function moveBackward(rover){
+  switch (true) {
+    case rover.direction === "N":{
+      rover.y += 1;
+      break;
+    };
+      case rover.direction === "S":{
+      rover.y -= 1;
+      break;
+    };
+      case rover.direction === "W":{
+      rover.x += 1;
+      break;
+    };
+      case rover.direction === "E":{
+      rover.x -= 1;
+      break;
+    };
+      default : console.log("erreur");
+  }
+  console.log("moveBackward was called")
+};
+
+ function command(orderOfCommand, rover){
+  
+  for (let i=0; i < orderOfCommand.length; i++){
+    
+    // cette condition empeche le rover de sortir
+    if (rover.x < 0 || rover.y <0){
+          console.log("The rover was going out of bounds")
+          break;
+        }  
+    
+    // cette condition bloque les mauvaises commandes
+     if (orderOfCommand[i] !== "r" && orderOfCommand[i] !== "l" && orderOfCommand[i] !== "f" && orderOfCommand[i] !== "b") {
+          console.log("Incorrect command")
+          break;
+        }     
+    
+    switch (true) {
+      case orderOfCommand[i] === "r": {
+        turnRight(rover);
+        break;
+    };
+      case orderOfCommand[i] === "l" :{
+        turnLeft(rover);
+        break;
+    };
+      case orderOfCommand[i] === "f" :{
+        rover.travelLog.push([rover.x,rover.y]);   
+        moveForward(rover);      
+        break;
+  };
+      case orderOfCommand[i] === "b" :{
+        rover.travelLog.push([rover.x,rover.y]);
+        moveBackward(rover);
+        break;
+  };
+      default : console.log("Erreur");
+}}}
+   
+// ======================
+
+
+command("rffrfflfrff",rover);
+console.log(rover);
